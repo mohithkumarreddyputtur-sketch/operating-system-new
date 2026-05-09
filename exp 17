@@ -1,0 +1,47 @@
+n = 5
+m = 3
+allocation = [
+    [0, 1, 0],
+    [2, 0, 0],
+    [3, 0, 2],
+    [2, 1, 1],
+    [0, 0, 2]
+]
+maximum = [
+    [7, 5, 3],
+    [3, 2, 2],
+    [9, 0, 2],
+    [2, 2, 2],
+    [4, 3, 3]
+]
+available = [3, 3, 2]
+need = []
+for i in range(n):
+    temp = []
+    for j in range(m):
+        temp.append(maximum[i][j] - allocation[i][j])
+    need.append(temp)
+print("Need Matrix:")
+for row in need:
+    print(row)
+finish = [False] * n
+safe_sequence = []
+while len(safe_sequence) < n:
+    allocated = False
+    for i in range(n):
+        if not finish[i]:
+            if all(need[i][j] <= available[j] for j in range(m)):
+                for j in range(m):
+                    available[j] += allocation[i][j]
+                safe_sequence.append(i)
+                finish[i] = True
+                allocated = True
+    if not allocated:
+        break
+if len(safe_sequence) == n:
+    print("\nSystem is in SAFE state")
+    print("Safe Sequence is:")
+    for i in safe_sequence:
+        print("P", i, end=" ")
+else:
+    print("\nSystem is NOT in safe state")
