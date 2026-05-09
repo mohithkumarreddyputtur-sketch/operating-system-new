@@ -1,0 +1,26 @@
+import os
+import shutil
+path = "test_folder"
+files = os.listdir(path)
+file_types = {
+    ".txt": ("Documents", "Text_Files"),
+    ".pdf": ("Documents", "PDF_Files"),
+    ".jpg": ("Media", "Images"),
+    ".png": ("Media", "Images"),
+    ".mp3": ("Media", "Audio")
+}
+for file in files:
+
+    file_path = os.path.join(path, file)
+    if os.path.isfile(file_path):
+        extension = os.path.splitext(file)[1].lower()
+        if extension in file_types:
+            first_level, second_level = file_types[extension]
+            first_path = os.path.join(path, first_level)
+            second_path = os.path.join(first_path, second_level)
+            os.makedirs(second_path, exist_ok=True)
+            shutil.move(file_path,
+                        os.path.join(second_path, file))
+            print(file, "moved to",
+                  first_level, "/", second_level)
+print("Files organized successfully!")
